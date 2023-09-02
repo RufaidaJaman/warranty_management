@@ -1,0 +1,54 @@
+<odoo>
+  <data>
+    <record id="view_product_product_warranty_tab" model="ir.ui.view">
+      <field name="name">view.product.product.warranty.tab</field>
+      <field name="model">product.product</field>
+      <field name="inherit_id" ref="product.product_normal_form_view" />
+      <field name="arch" type="xml">
+        <xpath expr="//notebook" position="inside">
+          <page string="warranty" name="warranty">
+            <group>
+              <group>
+                <field name="warranty_rule_id" />
+                <field name="warranty_serial" />
+                <field name="warranty_type" />
+              </group>
+              <group>
+                <label for="warranty_rule_id" string="Warranty Time" />
+                <div>
+                  <field name="warranty_count" />
+                  <field name="warranty_duration" />
+                </div>
+              </group>
+            </group>
+          </page>
+        </xpath>
+      </field>
+    </record>
+    <record id="view_product_template_warranty_tab" model="ir.ui.view">
+      <field name="name">view.product.template.warranty.tab</field>
+      <field name="model">product.template</field>
+      <field name="inherit_id" ref="product.product_template_only_form_view" />
+      <field name="arch" type="xml">
+        <xpath expr="//notebook" position="inside">
+          <page string="warranty" name="warranty">
+            <group>
+              <group>
+                <field name="warranty_rule_id" />
+                <field name="warranty_serial" />
+                <field name="warranty_type" />
+              </group>
+              <group>
+                <label for="warranty_rule_id" string="Warranty Time" />
+                <div>
+                  <field name="warranty_count" />
+                  <field name="warranty_duration" />
+                </div>
+              </group>
+            </group>
+          </page>
+        </xpath>
+      </field>
+    </record>
+  </data>
+</odoo> 

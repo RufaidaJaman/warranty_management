@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_warranty_rule,user group access to warranty rule,model_warranty_rule,base.group_user,1,1,1,1
+access_warranty_claim,user group access to warranty claim,model_warranty_claim,base.group_user,1,1,1,1
+access_stock_picking,user group access to stock picking,stock.model_stock_picking,,1,1,1,1
+access_warranty_feedback,user group access to warranty feedback,model_warranty_feedback,base.group_user,1,1,1,1
+
+access_productstock_picking,user group access to productstock picking,model_productstock_picking,base.group_user,1,1,1,1

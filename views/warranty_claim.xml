@@ -1,0 +1,161 @@
+<odoo>
+    <data>
+
+
+        <record id="action_menu_warranty_claim" model="ir.actions.act_window">
+            <field name="name">claim</field>
+            <field name="res_model">warranty.claim</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p>
+
+                </p>
+            </field>
+        </record>
+
+        <record id="view_menu_warranty_claim_form" model="ir.ui.view">
+            <field name="name">Warranty Claim Form</field>
+            <field name="model">warranty.claim</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="name" />
+                            <field name="pro_name" />
+                            <field name="pro_type" />
+                        </group>
+                        <group>
+
+                            <field name="warranty_typec" />
+                        </group>
+                        <group>
+                            <!-- <label for="warranty_rule_id" string="Warranty Time" />
+                        <div> -->
+                            <field name="warranty_countc" />
+                            <field name="warranty_durationc" />
+                            <!-- </div> -->
+                        </group>
+                    </sheet>
+                    <!-- Chatter -->
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" groups="base.group_user" />
+                        <!-- <field name="activity_ids" /> -->
+                        <field name="message_ids" />
+                    </div>
+                </form>
+            </field>
+        </record>
+
+
+        <record id="view_menu_warranty_claim_tree" model="ir.ui.view">
+            <field name="name">Warranty Claim Record</field>
+            <field name="model">warranty.claim</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="pro_name" />
+                    <field name="pro_type" />
+                    <field name="warranty_countc" />
+                    <field name="warranty_durationc" />
+                </tree>
+            </field>
+        </record>
+
+
+        <record id="view_warranty_feedback_form" model="ir.ui.view">
+            <field name="name">warranty.feedback.form</field>
+            <field name="model">warranty.feedback</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="name" />
+                            <field name="feedback" />
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_warranty_feedback_tree" model="ir.ui.view">
+            <field name="name">warranty.feedback.tree</field>
+            <field name="model">warranty.feedback</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name" />
+                    <field name="feedback" />
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_warranty_feedback" model="ir.actions.act_window">
+            <field name="name">Feedback</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">warranty.feedback</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="">
+                </p>
+            </field>
+        </record>
+
+        <record id="action_menu_stock" model="ir.actions.act_window">
+            <field name="name">Stock</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">productstock.picking</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_menu_stock_tree" />
+            <field name="domain">[('state', '=', 'done')]</field>
+            <field name="help" type="html">
+                <p>
+
+                </p>
+            </field>
+        </record>
+
+
+        <record id="view_menu_stock_tree" model="ir.ui.view">
+            <field name="name">menu.stock.tree</field>
+            <field name="model">productstock.picking</field>
+            <field name="inherit_id" ref="stock.vpicktree" />
+            <field name="arch" type="xml">
+                <xpath expr="//tree" position="inside">
+                    <field name="product_id" optional="show" />
+                    <field name="phone" optional="show" />
+                    <field name="email" optional="show" />
+                    <field name="serial" optional="show" />
+                    <field name="warranty_end_date" widget="date" optional="show"/>
+                    <field name="warranty_status" optional="show" widget="badge" decoration-success="warranty_status == 'available'" decoration-danger="warranty_status=='expired'" />
+                </xpath>
+            </field>
+        </record>
+
+
+        <record id="view_menu_stock_search" model="ir.ui.view">
+            <field name="name">menu.stock.search</field>
+            <field name="model">productstock.picking</field>
+            <field name="inherit_id" ref="stock.view_picking_internal_search" />
+            <field name="arch" type="xml">
+                <xpath expr="//search" position="inside">
+                    <field name="product_id" optional="show" />
+                    <field name="phone" optional="show" />
+                    <field name="email" optional="show" />
+                    <field name="serial" optional="show" />
+                </xpath>
+            </field>
+        </record>
+
+
+        <menuitem id="menu_warranty" name="Warranty" action="action_menu_stock" sequence="10" />
+
+        <menuitem id="menu_products" name="Sold Products" parent="menu_warranty"
+            action="action_menu_stock" sequence="10" />
+
+        <menuitem action="warranty_management.action_menu_warranty_claim" id="menu_warranty_claim"
+            name="Warranty Claim"
+            parent="menu_warranty" sequence="10" />
+
+        <menuitem id="menu_feedback" name="Feedback" action="action_warranty_feedback"
+            parent="menu_warranty"
+            sequence="10" />
+    </data>
+</odoo>

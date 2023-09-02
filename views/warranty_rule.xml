@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="action_open_products" model="ir.actions.act_window">
+            <field name="name">Products</field>
+            <field name="res_model">product.product</field>
+            <field name="view_mode">tree</field>
+            <field name="domain">[('warranty_rule_id', '=', active_id)]</field>
+            <field name="help" type="html">
+                <p></p>
+            </field>
+        </record>
+
+        <record id="view_warranty_rule_form" model="ir.ui.view">
+            <field name="name">warranty.rule.form</field>
+            <field name="model">warranty.rule</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+
+                            <button name="%(action_open_products)d"
+                                type="action"
+                                class="oe_stat_button"
+                                icon="fa-cubes">
+                                <field name="w_products_count" widget="statinfo" string="Products" />
+                            </button>
+                        </div>
+                        <group>
+                            <field name="name" />
+                            <field name="description" />
+                            <field name="warranty_count" />
+                            <field name="warranty_duration" />
+                        </group>
+                    </sheet>
+                    <!-- Chatter -->
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" groups="base.group_user" />
+                        <!-- <field name="activity_ids" /> -->
+                        <field name="message_ids" />
+                    </div>
+                </form>
+            </field>
+        </record>
+
+
+        <record id="view_warranty_rule_tree" model="ir.ui.view">
+            <field name="name">warranty.rule.tree</field>
+            <field name="model">warranty.rule</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name" />
+                    <field name="description" />
+                    <field name="warranty_count" />
+                    <field name="warranty_duration" />
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_warranty_rule" model="ir.actions.act_window">
+            <field name="name">Warranty rules</field>
+            <field name="res_model">warranty.rule</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{'default_warranty_duration':'months'}</field>
+            <field name="view_id" ref="view_warranty_rule_tree" />
+        </record>
+        <menuitem id="menu_warranty_rule" action="action_warranty_rule" name="Warranty rule"
+            parent="stock.menu_stock_config_settings" groups="stock.group_stock_manager" sequence="10" />
+
+    </data>
+</odoo>
