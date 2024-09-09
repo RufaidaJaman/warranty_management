@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_warranty_feedback_form" model="ir.ui.view">
+        <field name="name">warranty.feedback.form</field>
+        <field name="model">warranty.feedback</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name" />
+                        <field name="feedback" />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_warranty_feedback_tree" model="ir.ui.view">
+        <field name="name">warranty.feedback.tree</field>
+        <field name="model">warranty.feedback</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name" />
+                <field name="feedback" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_menu_warranty_stock_tree" model="ir.ui.view">
+        <field name="name">Warranty Stock</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.vpicktree" />
+        <field name="arch" type="xml">
+            <xpath expr="//tree" position="inside">
+                <field name="product_id" optional="show" />
+                <field name="phone" optional="show" />
+                <field name="email" optional="show" />
+                <field name="warranty_serial" optional="show" />
+                <field name="warranty_end_date" widget="date" optional="show" />
+                <field name="warranty_status" optional="show" widget="badge"
+                    decoration-success="warranty_status == 'available'"
+                    decoration-danger="warranty_status=='expired'" />
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_menu_warranty_stock_search" model="ir.ui.view">
+        <field name="name">warranty search</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_internal_search" />
+        <field name="arch" type="xml">
+            <xpath expr="//search" position="inside">
+                <field name="product_id" optional="show" />
+                <field name="phone" optional="show" />
+                <field name="email" optional="show" />
+                <field name="warranty_serial" optional="show" />
+            </xpath>
+        </field>
+    </record>
+    <record id="view_picking_form_inherit" model="ir.ui.view">
+        <field name="name">stock.picking.form.inherit</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="inside">
+                <button string="Warranty Claim" type="object" name="action_open_support_ticket"
+                    class="oe_highlight" attrs="{'invisible': [('warranty_product', '=', False)]}" />
+            </xpath>
+
+            <xpath expr="//sheet//group/group[2]" position="after">
+                <group>
+                    <field name="warranty_end_date" string="Warranty End Date"
+                        attrs="{'invisible': [('warranty_product', '=', False)]}" />
+                    <field name="warranty_status" string="Warranty Status"
+                        attrs="{'invisible': [('warranty_product', '=', False)]}" />
+                    <field name="warranty_product" widget="boolean_toggle"
+                        attrs="{'invisible': [('warranty_product', '=', False)]}"
+                    />
+                    <field name="warranty_serial"
+                        attrs="{'invisible': [('warranty_product', '!=', True)]}"
+                    />
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="support_ticket_tree_view_inherito" model="ir.ui.view">
+        <field name="name">support.ticket.tree.view</field>
+        <field name="model">support.ticket</field>
+        <field name="inherit_id" ref="bi_website_support_ticket.support_ticket_tree_view" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='id']" position="replace">
+                <field name="sequence" />
+            </xpath>
+            <xpath expr="//tree" position="inside">
+                <field name="product_id" string="Product"/>
+                <field name="warranty_status" string="Status"/>
+                <field name="warranty_end_date" string="Expiry Date"/>
+                <field name="warranty_serial" string="Serial"/>
+                <field name="qr_code" string="QR Code"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="action_menu_stock" model="ir.actions.act_window">
+        <field name="name">Warraty Record</field>
+        <field name="res_model">stock.picking</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="view_menu_warranty_stock_search" />
+        <field name="domain">[('state', '=', 'done'),('pick_type','=','outgoing'),('loc_type','=','customer')]</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No transfer found. Let's create one!
+            </p>
+            <p>
+                Transfers allow you to move products from one location to another.
+            </p>
+        </field>
+    </record>
+
+    <record id="action_menu_warranty_claim" model="ir.actions.act_window">
+        <field name="name">Claim</field>
+        <field name="res_model">support.ticket</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="support_ticket_tree_view_inherito" />
+        <field name="domain">[('is_claim', '=', True)]</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No Ticket found. Let's create one!
+            </p>
+
+        </field>
+    </record>
+
+    <record id="action_warranty_feedback" model="ir.actions.act_window">
+        <field name="name">Feedback</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">warranty.feedback</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p>
+            </p>
+        </field>
+    </record>
+
+
+    <menuitem id="menu_warranty" name="Warranty" action="action_menu_stock" sequence="10">
+        <menuitem
+            id="menu_products"
+            name="Records"
+            action="action_menu_stock"
+            sequence="1" />
+        <menuitem
+            id="menu_claims"
+            name="Claims"
+            action="action_menu_warranty_claim"
+            sequence="2" />
+        <menuitem
+            id="menu_config"
+            name="Configuration"
+            sequence="3">
+            <menuitem id="menu_warranty_rule" action="action_warranty_rule" name="Warranty rule"
+                sequence="10" />
+            <menuitem id="menu_feedback" name="Feedback" action="action_warranty_feedback"
+                sequence="10" />
+        </menuitem>
+    </menuitem>
+</odoo>

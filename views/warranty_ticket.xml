@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<odoo>
+
+    <record id="view_helpdesk_ticket_form_inherito" model="ir.ui.view">
+        <field name="name">view.helpdesk.ticket.form.inherito</field>
+        <field name="model">helpdesk.ticket</field>
+        <field name="inherit_id"
+            ref="meta_helpdesk_customization_gd.view_helpdesk_ticket_form_inherit" />
+        <field name="arch" type="xml">
+
+            <xpath expr="//field[@name='customer_type']" position="replace">
+            </xpath>
+            <xpath expr="//field[@name='cup_number']" position="replace">
+
+            </xpath>
+            <!-- <xpath expr="//sheet//group//group[3]" position="inside">
+            <field name="end_date"></field>
+            <field name="selected_product_id"></field>
+            <field name="w_status"></field>
+            </xpath> -->
+            
+        </field>
+    </record>
+</odoo>

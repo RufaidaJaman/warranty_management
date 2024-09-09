@@ -20,7 +20,7 @@
     'version': '0.1',
     'sequence': -100,
     # any module necessary for this one to work correctly
-    'depends': ['base','sale','stock','mail','product'],
+    'depends': ['base', 'sale', 'stock', 'mail', 'product','bi_all_in_one_helpdesk','bi_website_support_ticket','bi_subtask'],
 
     # always loaded
     'data': [
@@ -28,9 +28,13 @@
         'views/warranty_rule.xml',
         'views/views.xml',
         'views/ir_sequence.xml',
-        'views/warranty_claim.xml',
+        # 'views/warranty_claim.xml',
+        # 'views/warranty_ticket.xml',
+        'views/warranty_products.xml',
+        'views/support_ticket.xml',
+
     ],
-    # only loaded in demonstration mode
+
     'demo': [],
     'license': 'AGPL-3',
 

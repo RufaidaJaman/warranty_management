@@ -3,7 +3,7 @@
     <data>
 
         <record id="action_open_products" model="ir.actions.act_window">
-            <field name="name">Products</field>
+            <field name="name">Records</field>
             <field name="res_model">product.product</field>
             <field name="view_mode">tree</field>
             <field name="domain">[('warranty_rule_id', '=', active_id)]</field>
@@ -65,8 +65,6 @@
             <field name="context">{'default_warranty_duration':'months'}</field>
             <field name="view_id" ref="view_warranty_rule_tree" />
         </record>
-        <menuitem id="menu_warranty_rule" action="action_warranty_rule" name="Warranty rule"
-            parent="stock.menu_stock_config_settings" groups="stock.group_stock_manager" sequence="10" />
-
+        
     </data>
 </odoo>
